@@ -8,40 +8,46 @@ import { API } from "../config/Api";
 // import components
 import Headers from "../component/Header";
 
-export default function AddTodo(props) {
+export default function UpdateTodo(props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [isError, setIsError] = React.useState(false);
-
   const [title, setTitle] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [description, setDescription] = React.useState("");
 
-  const addTodo = async () => {
+  const dataTodo = {
+    id: props.route.params.id,
+    title: props.route.params.title,
+    description: props.route.params.description,
+    status: props.route.params.status,
+  };
+
+  const updateTodo = async () => {
     try {
-      setIsLoading(true);
-      const data = {
-        title: title,
-        status: status,
-        description: description,
-      };
+      // setIsLoading(true);
+      // const data = {
+      //   title: title,
+      //   status: status,
+      //   description: description,
+      // };
       // console.log("DataInput: ", data);
-      if (!data.title || !data.status || !data.description) {
-        setIsError(true);
-        setError("Please fill in all the fields");
-        console.log("Data", data);
-      } else {
-        if (data.status !== "Done" && data.status !== "Progress") {
-          setIsError(true);
-          setError("Status Wajib Done atau Progress");
-          console.log("Data", data.status);
-        } else {
-          const response = await API.post("/add-todo", data);
-          setError("Berhasil");
-          setIsLoading(false);
-          props.navigation.navigate("Home");
-        }
-      }
+      // if (!data.title || !data.status || !data.description) {
+      //   setIsError(true);
+      //   setError("Please fill in all the fields");
+      //   console.log("Data", data);
+      // } else {
+      //   if (data.status !== "Done" && data.status !== "Progress") {
+      //     setIsError(true);
+      //     setError("Status Wajib Done atau Progress");
+      //     console.log("Data", data.status);
+      //   } else {
+      //     const response = await API.post("/update-todo", data);
+      //     setError("Berhasil");
+      //     setIsLoading(false);
+      //     props.navigation.navigate("Home");
+      //   }
+      // }
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -54,7 +60,7 @@ export default function AddTodo(props) {
       <Headers title="Title" />
       <TextInput
         style={styles.textInput}
-        value={title}
+        value={dataTodo.title}
         onChangeText={(text) => setTitle(text)}
       />
       <Headers title="Description" />
@@ -67,19 +73,19 @@ export default function AddTodo(props) {
           padding: 6,
           borderRadius: 5,
         }}
-        value={description}
+        value={dataTodo.description}
         onChangeText={(text) => setDescription(text)}
       />
       <Headers title="Status" />
       <TextInput
         style={styles.textInput}
-        value={status}
+        value={dataTodo.status}
         onChangeText={(text) => setStatus(text)}
       />
       {isError && (
         <View>{error && <Text style={{ color: "red" }}>{error}</Text>}</View>
       )}
-      <TouchableOpacity style={styles.btnSave} onPress={addTodo}>
+      <TouchableOpacity style={styles.btnSave} onPress={updateTodo}>
         <Text style={{ color: "#fff", textAlign: "center" }}>Save</Text>
       </TouchableOpacity>
     </View>

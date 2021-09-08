@@ -7,6 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import Home from "./src/pages/Home";
 import AddTodo from "./src/pages/AddTodo";
 import DetailTodo from "./src/pages/DetailTodo";
+import UpdateTodo from "./src/pages/UpdateTodo";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Add Todo" component={AddTodo} />
         <Stack.Screen name="Detail Todo" component={DetailTodo} />
+        <Stack.Screen name="Edit Todo" component={UpdateTodo} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

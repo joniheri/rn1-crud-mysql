@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import Headers from "../component/Header";
 
@@ -20,12 +21,8 @@ export default function DetailTodo(props) {
     description: props.route.params.description,
     status: props.route.params.status,
   };
-  // const id = props.route.params.id;
-  // const title = props.route.params.title;
-  // const description = props.route.params.description;
-  // const status = props.route.params.status;
 
-  const updateStatus = async () => {
+  const updateTodo = async () => {
     try {
       setIsLoading(true);
       const data = {
@@ -57,45 +54,33 @@ export default function DetailTodo(props) {
     }
   };
   React.useEffect(() => {
-    updateStatus();
+    updateTodo();
   }, [dataTodo.id]);
 
   return (
     <View style={styles.container}>
       {console.log("isError: ", isError)}
-      <Headers title="Title" />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>{dataTodo.title}</Text>
-      <Headers title="Description" />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>
+      <Headers title="Title : " />
+      <Text style={{ fontSize: 25, marginBottom: 12, color: "#5b5b5b" }}>
+        {dataTodo.title}
+      </Text>
+      <Headers title="Description : " />
+      <Text style={{ fontSize: 18, marginBottom: 12, color: "#5b5b5b" }}>
         {dataTodo.description}
       </Text>
-      <Headers title="Status" />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>{dataTodo.status}</Text>
-      {status === "Progress" && (
-        <View style={{ marginTop: 10 }}>
-          <Headers title="Change Status" />
-          <TextInput
-            style={{
-              marginTop: 10,
-              borderRadius: 5,
-              borderWidth: 0.5,
-              height: 30,
-              width: 350,
-              padding: 6,
-            }}
-            value={changeStatus}
-            onChangeText={(text) => setChangeStatus(text)}
-          />
-          {isError && (
-            <View>
-              {error && <Text style={{ color: "red" }}>{error}</Text>}
-            </View>
-          )}
-          <TouchableOpacity style={styles.btnSave} onPress={updateStatus}>
-            <Text style={{ color: "#fff", textAlign: "center" }}>Save</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <Headers title="Status : " />
+      <Text style={{ fontSize: 20, marginBottom: 12, color: "#5b5b5b" }}>
+        {dataTodo.status}
+      </Text>
+      <TouchableOpacity
+        style={styles.btnSave}
+        onPress={() => props.navigation.navigate("Edit Todo", dataTodo)}
+      >
+        <Text style={{ color: "#fff", textAlign: "center" }}>Edit</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btnDelete}>
+        <Text style={{ color: "#fff", textAlign: "center" }}>Delete</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -105,9 +90,17 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   btnSave: {
-    width: 100,
+    width: "100%",
     backgroundColor: "#10bbeb",
     marginTop: 10,
+    padding: 10,
+    alignSelf: "center",
+    borderRadius: 5,
+  },
+  btnDelete: {
+    width: "100%",
+    backgroundColor: "red",
+    marginTop: 20,
     padding: 10,
     alignSelf: "center",
     borderRadius: 5,
