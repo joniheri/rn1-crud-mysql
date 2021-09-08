@@ -2,6 +2,11 @@ import axios from "axios";
 import React from "react";
 import { Text } from "react-native";
 import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native";
+
+// import config
+import { API } from "../config/Api";
+
+// import components
 import Headers from "../component/Header";
 
 export default function AddTodo(props) {
@@ -9,7 +14,7 @@ export default function AddTodo(props) {
   const [error, setError] = React.useState("");
   const [isError, setIsError] = React.useState(false);
 
-  const [name, setName] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [description, setDescription] = React.useState("");
 
@@ -17,11 +22,11 @@ export default function AddTodo(props) {
     try {
       setIsLoading(true);
       const data = {
-        name: name,
+        title: title,
         status: status,
         description: description,
       };
-      if (!data.name || !data.status || !data.description) {
+      if (!data.title || !data.status || !data.description) {
         setIsError(true);
         setError("Please fill in all the fields");
         console.log("Data", data);
@@ -31,10 +36,7 @@ export default function AddTodo(props) {
           setError("Status Wajib Done atau Progress");
           console.log("Data", data.status);
         } else {
-          const response = await axios.post(
-            "http://192.168.100.30:4000/api/v1/todo",
-            data
-          );
+          const response = await API.post("/add-todo", data);
           setError("Berhasil");
           setIsLoading(false);
           props.navigation.navigate("Home");
@@ -49,7 +51,7 @@ export default function AddTodo(props) {
 
   return (
     <View style={styles.container}>
-      <Headers title='Title' />
+      <Headers title="Title" />
       <TextInput
         style={{
           borderWidth: 0.5,
@@ -60,10 +62,10 @@ export default function AddTodo(props) {
           padding: 6,
           borderRadius: 5,
         }}
-        value={name}
-        onChangeText={(text) => setName(text)}
+        value={title}
+        onChangeText={(text) => setTitle(text)}
       />
-      <Headers title='Description' />
+      <Headers title="Description" />
       <TextInput
         style={{
           marginTop: 10,
@@ -77,7 +79,7 @@ export default function AddTodo(props) {
         value={description}
         onChangeText={(text) => setDescription(text)}
       />
-      <Headers title='Status' />
+      <Headers title="Status" />
       <TextInput
         style={{
           marginTop: 10,

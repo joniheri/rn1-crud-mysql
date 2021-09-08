@@ -5,11 +5,15 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
+
+// import config
+import { API } from "../config/Api";
+
+// import components
 import Headers from "../component/Header";
-import axios from "axios";
-import { ScrollView } from "react-native";
 
 export default function Home(props) {
   const [todo, setTodo] = useState([]);
@@ -21,11 +25,9 @@ export default function Home(props) {
   const getTodo = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "http://192.168.100.30:4000/api/v1/todos"
-      );
-
-      setTodo(response.data.data.todos);
+      const response = await API.get("/todos");
+      // console.log("DataTodos: ", response.data);
+      setTodo(response.data.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -36,17 +38,18 @@ export default function Home(props) {
   const _renderItem = ({ item }) => {
     return (
       <ListItem
-        onPress={() => props.navigation.navigate("DetailTodo", item)}
+        onPress={() => props.navigation.navigate("Detail Todo", item)}
         key={item.id.toString()}
-        bottomDivider>
+        bottomDivider
+      >
         <Avatar
           rounded
-          title={item.name.slice(0, 2)}
+          title={item.title.slice(0, 2)}
           containerStyle={{ backgroundColor: "black" }}
         />
         <ListItem.Content>
           <ListItem.Title h4 numberOfLines={1}>
-            {item.name}
+            {item.title}
           </ListItem.Title>
           <ListItem.Subtitle numberOfLines={2}>
             {item.description}
@@ -76,10 +79,12 @@ export default function Home(props) {
               justifyContent: "space-between",
               padding: 16,
               alignItems: "center",
-            }}>
-            <Headers title='List Todo' />
+            }}
+          >
+            <Headers title="List Todo" />
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("AddTodo")}>
+              onPress={() => props.navigation.navigate("Add Todo")}
+            >
               <Text style={Style.btnAdd}>Add Todo</Text>
             </TouchableOpacity>
           </View>

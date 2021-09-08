@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+// import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 // Screen
-import Home from "./src/screen/Home";
-import AddTodo from "./src/screen/AddTodo";
-import DetailTodo from "./src/screen/DetailTodo";
+import Home from "./src/pages/Home";
+import AddTodo from "./src/pages/AddTodo";
+import DetailTodo from "./src/pages/DetailTodo";
 
 const Stack = createStackNavigator();
 
@@ -21,12 +21,13 @@ function App() {
           cardStyle: {
             backgroundColor: "white",
           },
-        }}>
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='AddTodo' component={AddTodo} />
-        <Stack.Screen name='DetailTodo' component={DetailTodo} />
+        }}
+      >
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Add Todo" component={AddTodo} />
+        <Stack.Screen name="Detail Todo" component={DetailTodo} />
       </Stack.Navigator>
-      <StatusBar style='auto' />
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }

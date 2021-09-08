@@ -28,9 +28,9 @@ app.get("/", (req, res) => {
 });
 // End create the homepage route
 
-// import route modul
-const routerV1 = require("./src/routers/Routerv1");
-const routerV2 = require("./src/routers/Routerv2");
+// import route module
+const routerV1 = require("./src/routers/RouterV1");
+const routerV2 = require("./src/routers/RouterV2");
 
 // group route
 app.use("/api/v1", routerV1);

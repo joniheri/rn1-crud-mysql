@@ -14,10 +14,16 @@ export default function DetailTodo(props) {
   const [error, setError] = React.useState("");
   const [isError, setIsError] = React.useState(false);
   const [changeStatus, setChangeStatus] = React.useState("");
-  const id = props.route.params.id;
-  const name = props.route.params.name;
-  const description = props.route.params.description;
-  const status = props.route.params.status;
+  const dataTodo = {
+    id: props.route.params.id,
+    title: props.route.params.title,
+    description: props.route.params.description,
+    status: props.route.params.status,
+  };
+  // const id = props.route.params.id;
+  // const title = props.route.params.title;
+  // const description = props.route.params.description;
+  // const status = props.route.params.status;
 
   const updateStatus = async () => {
     try {
@@ -35,7 +41,7 @@ export default function DetailTodo(props) {
           console.log("Data", data.status);
         } else {
           const response = await axios.patch(
-            `http://192.168.100.30:4000/api/v1/todo/update/${id}`,
+            `http://localhost:9001/api/v1/todo/update/${dataTodo.id}`,
             data
           );
           console.log(response.data);
@@ -52,19 +58,22 @@ export default function DetailTodo(props) {
   };
   React.useEffect(() => {
     updateStatus();
-  }, [id]);
+  }, [dataTodo.id]);
 
   return (
     <View style={styles.container}>
-      <Headers title='Title' />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>{name}</Text>
-      <Headers title='Description' />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>{description}</Text>
-      <Headers title='Status' />
-      <Text style={{ fontSize: 25, marginBottom: 12 }}>{status}</Text>
+      {console.log("isError: ", isError)}
+      <Headers title="Title" />
+      <Text style={{ fontSize: 25, marginBottom: 12 }}>{dataTodo.title}</Text>
+      <Headers title="Description" />
+      <Text style={{ fontSize: 25, marginBottom: 12 }}>
+        {dataTodo.description}
+      </Text>
+      <Headers title="Status" />
+      <Text style={{ fontSize: 25, marginBottom: 12 }}>{dataTodo.status}</Text>
       {status === "Progress" && (
         <View style={{ marginTop: 10 }}>
-          <Headers title='Change Status' />
+          <Headers title="Change Status" />
           <TextInput
             style={{
               marginTop: 10,

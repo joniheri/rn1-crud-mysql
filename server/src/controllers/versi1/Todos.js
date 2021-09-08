@@ -1,40 +1,37 @@
 // import joi
 const joi = require("joi");
 
-// // import models
-// const { Artist, Music } = require("../../../models");
+// import models
+const { Todo } = require("../../../models");
 
-// // Function GetArtists
-// exports.getArtists = async (req, res) => {
-//   try {
-//     const getDatas = await Artist.findAll({
-//       attributes: {
-//         exclude: ["createdAt", "updatedAt"],
-//       },
-//     });
-
-//     if (getDatas == null) {
-//       return res.send({
-//         response: "Response Failed",
-//         status: "Data is empty!",
-//       });
-//     }
-
-//     res.send({
-//       response: "Response Success",
-//       status: "Get data Success.",
-//       dataCount: getDatas.length,
-//       data: getDatas,
-//     });
-//   } catch (error) {
-//     return res.send({
-//       response: "Response Failed",
-//       status: "Get data Error!",
-//       error: error,
-//     });
-//   }
-// };
-// // End Function GetArtists
+exports.getTodos = async (req, res) => {
+  try {
+    const getDatas = await Todo.findAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    });
+    if (getDatas == null) {
+      return res.send({
+        response: "Response Failed",
+        status: "Data is empty!",
+      });
+    }
+    res.send({
+      response: "Response Success",
+      status: "Get data Success.",
+      dataCount: getDatas.length,
+      data: getDatas,
+    });
+  } catch (error) {
+    return res.send({
+      response: "Response Failed",
+      status: "Get data Error!",
+      error: error,
+    });
+  }
+};
+// End Function GetTodos
 
 // // Function GetArtistsHasManyMusic
 // exports.getArtistsHasManyMusic = async (req, res) => {
@@ -113,71 +110,72 @@ const joi = require("joi");
 // };
 // // End Function GetArtistById
 
-// // Function AddArtist
-// exports.addArtist = async (req, res) => {
-//   try {
-//     const dataAdd = req.body; //Data will Added
+// Function AddTodo
+exports.addTodo = async (req, res) => {
+  try {
+    const dataAdd = req.body; //Data will Added
 
-//     // ChekcValidationInput
-//     const schema = joi.object({
-//       name: joi.string().min(1).required(),
-//       old: joi.string().min(1).required(),
-//       type: joi.string().min(2).required(),
-//       startCareer: joi.string().min(4).required(),
-//     });
-//     const { error } = schema.validate(dataAdd);
-//     if (error) {
-//       return res.send({
-//         status: "Response Failed",
-//         message: error.details[0].message,
-//         data: dataAdd,
-//       });
-//     }
-//     // EndChekcValidationInput
+    console.log("dataBody: ", dataAdd);
 
-//     // AddData
-//     const dataAdded = await Artist.create(dataAdd);
-//     if (!dataAdded) {
-//       return res.send({
-//         status: "Response Failed",
-//         message: `Add data Failed!`,
-//       });
-//     }
-//     // EndAddData
+    // ChekcValidationInput
+    const schema = joi.object({
+      title: joi.string().min(3).required(),
+      description: joi.string().min(1).required(),
+      status: joi.string().min(1).required(),
+    });
+    const { error } = schema.validate(dataAdd);
+    if (error) {
+      return res.send({
+        status: "Response Failed",
+        message: error.details[0].message,
+        data: dataAdd,
+      });
+    }
+    // EndChekcValidationInput
 
-//     // GetArtistById
-//     const idArtist = dataAdded.id;
-//     const getData = await Artist.findOne({
-//       where: {
-//         id: idArtist,
-//       },
-//       attributes: {
-//         exclude: ["createdAt", "updatedAt"],
-//       },
-//     });
-//     if (getData == null) {
-//       return res.send({
-//         status: "Response Failed",
-//         message: `Data with id ${idArtist} Not Found!`,
-//         data: null,
-//       });
-//     }
-//     // EndGetArtistById
+    // AddData
+    const dataAdded = await Todo.create(dataAdd);
+    if (!dataAdded) {
+      return res.send({
+        status: "Response Failed",
+        message: `Add data Failed!`,
+      });
+    }
+    // EndAddData
 
-//     res.send({
-//       status: "Response Success",
-//       message: "Add data Success.",
-//       dataAdded: getData,
-//     });
-//   } catch (error) {
-//     return res.send({
-//       status: "Response Failed",
-//       message: "Add Data Error!",
-//       error: error,
-//     });
-//   }
-// };
-// // End Function AddArtist
+    // // GetArtistById
+    // const idTodo = dataAdded.id;
+    // const getData = await Todo.findOne({
+    //   where: {
+    //     id: idTodo,
+    //   },
+    //   attributes: {
+    //     exclude: ["createdAt", "updatedAt"],
+    //   },
+    // });
+    // if (getData == null) {
+    //   return res.send({
+    //     status: "Response Failed",
+    //     message: `Data with id ${idTodo} Not Found!`,
+    //     data: null,
+    //   });
+    // }
+    // // EndGetArtistById
+
+    res.send({
+      status: "Response Success",
+      message: "Add data Success.",
+      // dataAdded: getData,
+    });
+  } catch (error) {
+    return res.send({
+      status: "Response Failed",
+      message: "Add Data Error!",
+      error: error,
+    });
+  }
+};
+// End Function AddArtist
 
 // // Function UpdateArtist
 // exports.updateArtist = async (req, res) => {
