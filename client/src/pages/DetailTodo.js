@@ -78,9 +78,6 @@ export default function DetailTodo(props) {
       >
         <Text style={{ color: "#fff", textAlign: "center" }}>Edit</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnDelete}>
-        <Text style={{ color: "#fff", textAlign: "center" }}>Delete</Text>
-      </TouchableOpacity>
     </View>
   );
 }

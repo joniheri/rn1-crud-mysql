@@ -65,6 +65,9 @@ export default function Home(props) {
             </ListItem.Subtitle>
           )}
         </ListItem.Content>
+        <TouchableOpacity>
+          <Text style={Style.btnDelete}>Delete</Text>
+        </TouchableOpacity>
       </ListItem>
     );
   };
@@ -106,6 +109,12 @@ export default function Home(props) {
 const Style = StyleSheet.create({
   btnAdd: {
     backgroundColor: "#10bbeb",
+    padding: 7,
+    color: "white",
+    borderRadius: 6,
+  },
+  btnDelete: {
+    backgroundColor: "red",
     padding: 7,
     color: "white",
     borderRadius: 6,
