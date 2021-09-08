@@ -26,6 +26,7 @@ export default function AddTodo(props) {
         status: status,
         description: description,
       };
+      // console.log("DataInput: ", data);
       if (!data.title || !data.status || !data.description) {
         setIsError(true);
         setError("Please fill in all the fields");
